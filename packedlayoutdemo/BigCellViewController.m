@@ -125,7 +125,7 @@
 - (void) normalCells
 {
     [self.collection performBatchUpdates:^{
-        for (NSInteger ndx = 10; ndx < self.theData.count; ndx += 10)
+        for (NSInteger ndx = 5; ndx < self.theData.count; ndx += 5)
         {
             NSMutableDictionary* dict = self.theData[ndx];
             dict[@"height"] = [NSNumber numberWithFloat:50.0];
@@ -138,7 +138,7 @@
 - (void) bigCells
 {
     [self.collection performBatchUpdates:^{
-        for (NSInteger ndx = 10; ndx < self.theData.count; ndx += 10)
+        for (NSInteger ndx = 5; ndx < self.theData.count; ndx += 5)
         {
             NSMutableDictionary* dict = self.theData[ndx];
             dict[@"height"] = [NSNumber numberWithFloat:700.0];

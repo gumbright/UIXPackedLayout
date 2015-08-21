@@ -14,7 +14,6 @@
 		E43841831B82D2FB00EDD223 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E43841821B82D2FB00EDD223 /* Images.xcassets */; };
 		E43841861B82D2FB00EDD223 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E43841841B82D2FB00EDD223 /* LaunchScreen.xib */; };
 		E43841921B82D2FB00EDD223 /* packedlayoutdemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E43841911B82D2FB00EDD223 /* packedlayoutdemoTests.m */; };
-		E43841A01B82D4B500EDD223 /* BasicVerticalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E438419F1B82D4B500EDD223 /* BasicVerticalViewController.m */; };
 		E43841A31B82E8B100EDD223 /* BasicHorizontalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E43841A21B82E8B100EDD223 /* BasicHorizontalViewController.m */; };
 		E43841A61B8428F200EDD223 /* VariableWidthVerticalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E43841A51B8428F200EDD223 /* VariableWidthVerticalViewController.m */; };
 		E43841A91B843D5C00EDD223 /* VariableHeightHorizontalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E43841A81B843D5C00EDD223 /* VariableHeightHorizontalViewController.m */; };
@@ -22,6 +21,7 @@
 		E43841B01B85795500EDD223 /* BigCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E43841AF1B85795500EDD223 /* BigCellViewController.m */; };
 		E47BF2861B86C1D600105BF8 /* VerticalWithHeadersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E47BF2851B86C1D600105BF8 /* VerticalWithHeadersViewController.m */; };
 		E47BF2891B876FBC00105BF8 /* VerticalHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E47BF2881B876FBC00105BF8 /* VerticalHeaderView.m */; };
+		E47BF28C1B8780C700105BF8 /* HorizontalHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E47BF28B1B8780C700105BF8 /* HorizontalHeaderView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,8 +48,6 @@
 		E438418B1B82D2FB00EDD223 /* packedlayoutdemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = packedlayoutdemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E43841901B82D2FB00EDD223 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E43841911B82D2FB00EDD223 /* packedlayoutdemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = packedlayoutdemoTests.m; sourceTree = "<group>"; };
-		E438419E1B82D4B500EDD223 /* BasicVerticalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicVerticalViewController.h; sourceTree = "<group>"; };
-		E438419F1B82D4B500EDD223 /* BasicVerticalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicVerticalViewController.m; sourceTree = "<group>"; };
 		E43841A11B82E8B100EDD223 /* BasicHorizontalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicHorizontalViewController.h; sourceTree = "<group>"; };
 		E43841A21B82E8B100EDD223 /* BasicHorizontalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicHorizontalViewController.m; sourceTree = "<group>"; };
 		E43841A41B8428F200EDD223 /* VariableWidthVerticalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableWidthVerticalViewController.h; sourceTree = "<group>"; };
@@ -64,6 +62,8 @@
 		E47BF2851B86C1D600105BF8 /* VerticalWithHeadersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerticalWithHeadersViewController.m; sourceTree = "<group>"; };
 		E47BF2871B876FBC00105BF8 /* VerticalHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerticalHeaderView.h; sourceTree = "<group>"; };
 		E47BF2881B876FBC00105BF8 /* VerticalHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerticalHeaderView.m; sourceTree = "<group>"; };
+		E47BF28A1B8780C700105BF8 /* HorizontalHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalHeaderView.h; sourceTree = "<group>"; };
+		E47BF28B1B8780C700105BF8 /* HorizontalHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalHeaderView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +106,8 @@
 		E43841741B82D2FB00EDD223 /* packedlayoutdemo */ = {
 			isa = PBXGroup;
 			children = (
+				E47BF28A1B8780C700105BF8 /* HorizontalHeaderView.h */,
+				E47BF28B1B8780C700105BF8 /* HorizontalHeaderView.m */,
 				E43841791B82D2FB00EDD223 /* AppDelegate.h */,
 				E438417A1B82D2FB00EDD223 /* AppDelegate.m */,
 				E438417C1B82D2FB00EDD223 /* ViewController.h */,
@@ -114,8 +116,6 @@
 				E43841821B82D2FB00EDD223 /* Images.xcassets */,
 				E43841841B82D2FB00EDD223 /* LaunchScreen.xib */,
 				E43841751B82D2FB00EDD223 /* Supporting Files */,
-				E438419E1B82D4B500EDD223 /* BasicVerticalViewController.h */,
-				E438419F1B82D4B500EDD223 /* BasicVerticalViewController.m */,
 				E43841A11B82E8B100EDD223 /* BasicHorizontalViewController.h */,
 				E43841A21B82E8B100EDD223 /* BasicHorizontalViewController.m */,
 				E43841A41B8428F200EDD223 /* VariableWidthVerticalViewController.h */,
@@ -268,6 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E43841AD1B8544D300EDD223 /* UIXPackedLayout.m in Sources */,
+				E47BF28C1B8780C700105BF8 /* HorizontalHeaderView.m in Sources */,
 				E43841B01B85795500EDD223 /* BigCellViewController.m in Sources */,
 				E43841A61B8428F200EDD223 /* VariableWidthVerticalViewController.m in Sources */,
 				E438417E1B82D2FB00EDD223 /* ViewController.m in Sources */,
@@ -276,7 +277,6 @@
 				E47BF2891B876FBC00105BF8 /* VerticalHeaderView.m in Sources */,
 				E43841A31B82E8B100EDD223 /* BasicHorizontalViewController.m in Sources */,
 				E47BF2861B86C1D600105BF8 /* VerticalWithHeadersViewController.m in Sources */,
-				E43841A01B82D4B500EDD223 /* BasicVerticalViewController.m in Sources */,
 				E43841781B82D2FB00EDD223 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -67,7 +67,7 @@ typedef enum
 @property (nonatomic, assign) CGFloat sliceSpacing;
 @property (nonatomic, assign) CGFloat minimumSliceWidth;
 
-@property (nonatomic, assign) BOOL singleSlice;
+//@property (nonatomic, assign) BOOL singleSlice;
 
 //@property (nonatomic, assign) BOOL justified; //forces first and last to edges and spreads rest in between
 @property (nonatomic, assign) UIXPackedLayoutAlignment alignment;

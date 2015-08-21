@@ -151,16 +151,12 @@
 /////////////////////////////////////////////////////
 - (void) prepareHorizontalLayout
 {
+    [super prepareLayout];
+
     CGFloat currentX, currentY;
     NSUInteger numSections;
     NSUInteger numItems;
     NSMutableArray* sectionData;
-    NSMutableArray* headerData;
-    CGSize sz;
-    CGRect frame;
-    NSIndexPath* indexPath;
-    
-    UICollectionViewLayoutAttributes* attr;
     
     currentX = self.sectionInset.left;
     currentY = self.sectionInset.top;
@@ -169,32 +165,36 @@
     
     numSections = [self.collectionView.dataSource numberOfSectionsInCollectionView:self.collectionView];
     sectionData = [NSMutableArray arrayWithCapacity:numSections];
-    headerData = [NSMutableArray arrayWithCapacity:numSections];
-    
+
+    //for each section
     for (int sectionNdx=0; sectionNdx < numSections; ++sectionNdx)
     {
-        indexPath = [NSIndexPath indexPathForItem:0 inSection:sectionNdx];
-        sz = CGSizeZero;
-        if ([self.delegate respondsToSelector:@selector(UIXPackedLayout:sizeOfHeaderForSection:)])
-        {
-            sz = [self.delegate UIXPackedLayout:self sizeOfHeaderForSection:sectionNdx];
-        }
-        
-        if (sz.height != 0)
-        {
-            attr = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:@"header" withIndexPath:indexPath];
-            frame = CGRectMake(self.sectionInset.left, currentY, sz.width, sz.height);
-            attr.frame = frame;
-            currentY += (frame.size.height + self.sliceSpacing);
-            [headerData addObject:attr];
-        }
+        currentX = self.sectionInset.left;
         
         numItems = [self.collectionView.dataSource collectionView:self.collectionView numberOfItemsInSection:sectionNdx];
+        
+        //allocate container for section items
         NSMutableArray* itemData = [NSMutableArray arrayWithCapacity:numItems];
+        
+        //header
+        if ([self.delegate respondsToSelector:@selector(UIXPackedLayout:sizeOfHeaderForSection:)])
+        {
+            CGSize headerSize = [self.delegate UIXPackedLayout:self sizeOfHeaderForSection:sectionNdx];
+            if (headerSize.height > 0 && headerSize.width > 0)
+            {
+                CGRect frame = CGRectMake(self.sectionInset.left, currentY, headerSize.width, headerSize.height);
+                UICollectionViewLayoutAttributes* attr = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UIXPackedLayoutHeader withIndexPath:[NSIndexPath indexPathWithIndex:sectionNdx]];
+                attr.frame = frame;
+                currentY = currentY + frame.size.height + self.sliceSpacing;
+                [itemData addObject:attr];
+            }
+        }
+
         for (int itemNdx = 0; itemNdx < numItems; ++itemNdx)
         {
-            sz = [self.delegate UIXPackedLayout: self sizeForItemAtIndex:[NSIndexPath indexPathForItem:itemNdx inSection:sectionNdx]];
+            CGSize sz = [self.delegate UIXPackedLayout: self sizeForItemAtIndex:[NSIndexPath indexPathForItem:itemNdx inSection:sectionNdx]];
             
+            //if not single slice and current slice is full
             if (currentX + sz.width > self.maxSliceLength)
             {
                 currentX = self.sectionInset.left;
@@ -207,8 +207,8 @@
             }
             
             //if an item does not fit after advancing the column, just let it hang off the bottom
-            attr = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForItem:itemNdx inSection:sectionNdx]];
-            frame = CGRectMake(currentX, currentY, sz.width, sz.height);
+            UICollectionViewLayoutAttributes* attr = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForItem:itemNdx inSection:sectionNdx]];
+            CGRect frame = CGRectMake(currentX, currentY, sz.width, sz.height);
             attr.frame = frame;
             [currentRow addObject:attr];
             
@@ -226,16 +226,15 @@
         
         [sectionData addObject:itemData];
         
-        currentX = self.sectionInset.left;
-//        if (self.justified)
-//        {
-//            [self justifyHorizontal:currentRow];
-//        }
-        currentRow = [NSMutableArray array];
+//        currentX = self.sectionInset.left;
+////        if (self.justified)
+////        {
+////            [self justifyHorizontal:currentRow];
+////        }
+//        currentRow = [NSMutableArray array];
     }
     
     self.layoutData = sectionData;
-    self.headerData = headerData;
     self.layoutContentSize = CGSizeMake(self.collectionView.bounds.size.width,currentY-self.sliceSpacing + self.sectionInset.bottom);
 }
 
@@ -395,6 +394,7 @@
     NSUInteger numSections;
     NSUInteger numItems;
     NSMutableArray* sectionData;
+    
     currentX = self.sectionInset.left;
     currentY = self.sectionInset.top;
     self.maxSliceLength = self.collectionView.bounds.size.height - (self.sectionInset.top + self.sectionInset.bottom);
@@ -420,24 +420,11 @@
             CGSize headerSize = [self.delegate UIXPackedLayout:self sizeOfHeaderForSection:sectionNdx];
             if (headerSize.height > 0 && headerSize.width > 0)
             {
-                switch (self.orientation)
-                {
-                    case UIXPackedLayoutOrientationHorizontal:
-                        {
-                            
-                        }
-                        break;
-                        
-                    case UIXPackedLayoutOrientationVertical:
-                        {
-                            CGRect frame = CGRectMake(currentX, self.sectionInset.top, headerSize.width, headerSize.height);
-                            UICollectionViewLayoutAttributes* attr = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UIXPackedLayoutHeader withIndexPath:[NSIndexPath indexPathWithIndex:sectionNdx]];
-                            attr.frame = frame;
-                            currentX = currentX + frame.size.width + self.sliceSpacing;
-                            [itemData addObject:attr];
-                        }
-                        break;
-                }
+                CGRect frame = CGRectMake(currentX, self.sectionInset.top, headerSize.width, headerSize.height);
+                UICollectionViewLayoutAttributes* attr = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UIXPackedLayoutHeader withIndexPath:[NSIndexPath indexPathWithIndex:sectionNdx]];
+                attr.frame = frame;
+                currentX = currentX + frame.size.width + self.sliceSpacing;
+                [itemData addObject:attr];
             }
         }
         
@@ -449,7 +436,7 @@
             CGSize sz = [self.delegate UIXPackedLayout: self sizeForItemAtIndex:[NSIndexPath indexPathForItem:itemNdx inSection:sectionNdx]];
             
             //if not single slice and current slice is full
-            if (!self.singleSlice && currentY + sz.height > self.maxSliceLength)
+            if (currentY + sz.height > self.maxSliceLength)
             {
                 //reset current Y
                 currentY = self.sectionInset.top;
@@ -489,14 +476,7 @@
     
     self.layoutData = sectionData;
     
-    if (self.singleSlice)
-    {
-        self.layoutContentSize = CGSizeMake(self.collectionView.bounds.size.width,currentY);
-    }
-    else
-    {
-        self.layoutContentSize = CGSizeMake(currentX-self.sliceSpacing + self.sectionInset.right, self.collectionView.bounds.size.height);
-    }
+    self.layoutContentSize = CGSizeMake(currentX-self.sliceSpacing + self.sectionInset.right, self.collectionView.bounds.size.height);
 
 }
 

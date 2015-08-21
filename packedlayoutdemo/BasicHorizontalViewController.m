@@ -8,7 +8,9 @@
 
 #import "BasicHorizontalViewController.h"
 #import "UIXPackedLayout.h"
+#import "HorizontalHeaderView.h"
 
+#define NUM_SECTIONS 3
 #define NUM_ITEMS 30
 #define NUM_DATA_ITEMS 10
 #define ROW_HEIGHT 100
@@ -32,13 +34,18 @@
     
 //    [self.collection registerNib:[UINib nibWithNibName:@"Cell" bundle:nil] forCellWithReuseIdentifier:@"cell"];
     
-    NSMutableArray* arr = [NSMutableArray array];
-    for (int ndx = 0; ndx < NUM_ITEMS; ++ndx)
+    NSMutableArray* data = [NSMutableArray arrayWithCapacity:NUM_SECTIONS];
+    for (int sectNdx = 0; sectNdx < NUM_SECTIONS; ++sectNdx)
     {
-        [arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:random() % 400],@"width",
-                        self.colors[random() % self.colors.count],@"color",nil]];
+        NSMutableArray* arr = [NSMutableArray array];
+        for (int ndx = 0; ndx < NUM_ITEMS; ++ndx)
+        {
+            [arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:random() % 400],@"width",
+                            self.colors[random() % self.colors.count],@"color",nil]];
+        }
+        [data addObject:arr];
     }
-    self.theData = arr;
+    self.theData = data;
     
     UIXPackedLayout* layout = [[UIXPackedLayout alloc] initWithOrientation:UIXPackedLayoutOrientationHorizontal];
     self.collection.collectionViewLayout = layout;
@@ -48,6 +55,8 @@
     layout.sliceSpacing = 20;
     layout.minimumSliceWidth = ROW_HEIGHT;
     layout.delegate = self;
+    
+    [self.collection registerClass:[HorizontalHeaderView class] forSupplementaryViewOfKind:UIXPackedLayoutHeader withReuseIdentifier:@"floop"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,7 +66,8 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary* data = self.theData[indexPath.item];
+    NSArray* arr = self.theData[indexPath.section];
+    NSDictionary* data = arr[indexPath.item];
     //    NSNumber* n = data[@"height"];
     
     UICollectionViewCell* cell = [self.collection dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
@@ -65,23 +75,40 @@
     return cell;
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
+           viewForSupplementaryElementOfKind:(NSString *)kind
+                                 atIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionReusableView* view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"floop" forIndexPath:indexPath];
+
+    return view;
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return NUM_ITEMS;
+    NSArray* arr = self.theData[section];
+    return arr.count;
 }
 
 - (NSInteger) numberOfSectionsInCollectionView:(UICollectionView*) collectinView
 {
-    return 1;
+    return self.theData.count;
 }
 
 - (CGSize) UIXPackedLayout: (UIXPackedLayout*) layout sizeForItemAtIndex:(NSIndexPath*) indexPath
 {
     CGSize result = CGSizeZero;
+    NSArray* arr = self.theData[indexPath.section];
     
-    NSNumber* n = self.theData[indexPath.item][@"width"];
+    NSNumber* n = arr[indexPath.item][@"width"];
     result = CGSizeMake([n floatValue],ROW_HEIGHT);
     
     return result;
 }
+
+- (CGSize) UIXPackedLayout:(UIXPackedLayout*) layout sizeOfHeaderForSection:(NSInteger)section
+{
+    return CGSizeMake(400, 50);
+}
+
 @end
