@@ -406,11 +406,41 @@
     //for each section
     for (int sectionNdx=0; sectionNdx < numSections; ++sectionNdx)
     {
+        currentY = self.sectionInset.top;
+        
         //get # items for section
         numItems = [self.collectionView.dataSource collectionView:self.collectionView numberOfItemsInSection:sectionNdx];
         
         //allocate container for section items
         NSMutableArray* itemData = [NSMutableArray arrayWithCapacity:numItems];
+        
+        //header
+        if ([self.delegate respondsToSelector:@selector(UIXPackedLayout:sizeOfHeaderForSection:)])
+        {
+            CGSize headerSize = [self.delegate UIXPackedLayout:self sizeOfHeaderForSection:sectionNdx];
+            if (headerSize.height > 0 && headerSize.width > 0)
+            {
+                switch (self.orientation)
+                {
+                    case UIXPackedLayoutOrientationHorizontal:
+                        {
+                            
+                        }
+                        break;
+                        
+                    case UIXPackedLayoutOrientationVertical:
+                        {
+                            CGRect frame = CGRectMake(currentX, self.sectionInset.top, headerSize.width, headerSize.height);
+                            UICollectionViewLayoutAttributes* attr = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UIXPackedLayoutHeader withIndexPath:[NSIndexPath indexPathWithIndex:sectionNdx]];
+                            attr.frame = frame;
+                            currentX = currentX + frame.size.width + self.sliceSpacing;
+                            [itemData addObject:attr];
+                        }
+                        break;
+                }
+            }
+        }
+        
         
         //for each item in section
         for (int itemNdx = 0; itemNdx < numItems; ++itemNdx)
@@ -449,10 +479,7 @@
         if (currentColumn.count > 0)
         {
             CGFloat sliceWidth = [self postProcessVerticalSlice:currentColumn];
-//            if (self.justified)
-//            {
-//                [self justifyVertical:currentColumn];
-//            }
+            currentX += (sliceWidth + self.sliceSpacing);
             
             [itemData addObjectsFromArray:currentColumn];
         }

@@ -32,6 +32,8 @@ typedef enum
     UIXPackedLayoutJustificationBottom = UIXPackedLayoutJustificationRight  //V
 } UIXPackedLayoutJustification;
 
+#define UIXPackedLayoutHeader @"UIXPackedLayoutHeader"
+
 @class UIXPackedLayout;
 
 
@@ -43,6 +45,13 @@ typedef enum
 - (CGSize) UIXPackedLayout: (UIXPackedLayout*) layout sizeForItemAtIndex:(NSIndexPath*) indexPath;
 
 @optional
+
+//return 0,0 for no header
+//
+//For vert, headers placed after the last item of previous section, using slice spacing and justified based on current
+//justification
+//Similar for horz, positioned at left edge of section and justified
+
 - (CGSize) UIXPackedLayout: (UIXPackedLayout*) layout sizeOfHeaderForSection:(NSInteger) section;
 
 @end
