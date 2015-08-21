@@ -443,10 +443,34 @@
         //header
         if ([self.delegate respondsToSelector:@selector(UIXPackedLayout:sizeOfHeaderForSection:)])
         {
+            CGRect frame;
             CGSize headerSize = [self.delegate UIXPackedLayout:self sizeOfHeaderForSection:sectionNdx];
             if (headerSize.height > 0 && headerSize.width > 0)
             {
-                CGRect frame = CGRectMake(currentX, self.sectionInset.top, headerSize.width, headerSize.height);
+                switch (self.headerJustification)
+                {
+                    case UIXPackedLayoutHeaderJustificationTop:
+                    {
+                        frame = CGRectMake(currentX, self.sectionInset.top, headerSize.width, headerSize.height);
+                    }
+                        break;
+                        
+                    case UIXPackedLayoutHeaderJustificationCenter:
+                    {
+                        CGFloat y = (self.collectionView.bounds.size.height - (self.sectionInset.top + self.sectionInset.bottom + headerSize.height))/2.0;
+                        frame = CGRectMake(currentX, self.sectionInset.top + y, headerSize.width, headerSize.height);
+                    }
+                        break;
+                        
+                    case UIXPackedLayoutHeaderJustificationBottom:
+                    {
+                        CGFloat y = self.collectionView.bounds.size.height - self.sectionInset.bottom - headerSize.height;
+                        frame = CGRectMake(currentX, y, headerSize.width, headerSize.height);
+                    }
+                        break;
+                }
+                
+                //CGRect frame = CGRectMake(currentX, self.sectionInset.top, headerSize.width, headerSize.height);
                 UICollectionViewLayoutAttributes* attr = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UIXPackedLayoutHeader withIndexPath:[NSIndexPath indexPathWithIndex:sectionNdx]];
                 attr.frame = frame;
                 currentX = currentX + frame.size.width + self.sliceSpacing;
