@@ -27,6 +27,7 @@
 {
     self.alignment = UIXPackedLayoutAlignmentLeft;
     self.justification = UIXPackedLayoutJustificationLeft;
+    self.headerJustification = UIXPackedLayoutHeaderJustificationLeft;
     self.sectionInset = UIEdgeInsetsZero;
     self.layoutData = nil;
     self.headerData = nil;
@@ -180,9 +181,34 @@
         if ([self.delegate respondsToSelector:@selector(UIXPackedLayout:sizeOfHeaderForSection:)])
         {
             CGSize headerSize = [self.delegate UIXPackedLayout:self sizeOfHeaderForSection:sectionNdx];
+            CGRect frame;
+            
             if (headerSize.height > 0 && headerSize.width > 0)
             {
-                CGRect frame = CGRectMake(self.sectionInset.left, currentY, headerSize.width, headerSize.height);
+                switch (self.headerJustification)
+                {
+                    case UIXPackedLayoutHeaderJustificationLeft:
+                    {
+                        frame = CGRectMake(self.sectionInset.left, currentY, headerSize.width, headerSize.height);
+                    }
+                        break;
+                        
+                    case UIXPackedLayoutHeaderJustificationCenter:
+                    {
+                        CGFloat x = (self.collectionView.bounds.size.width - (self.sectionInset.right + self.sectionInset.left + headerSize.width))/2.0;
+                        frame = CGRectMake(self.sectionInset.left + x, currentY, headerSize.width, headerSize.height);
+                    }
+                        break;
+                        
+                    case UIXPackedLayoutHeaderJustificationRight:
+                    {
+                        CGFloat x = self.collectionView.bounds.size.width - self.sectionInset.right - headerSize.width;
+                        frame = CGRectMake(x, currentY, headerSize.width, headerSize.height);
+                    }
+                        break;
+                }
+                
+                //CGRect frame = CGRectMake(self.sectionInset.left, currentY, headerSize.width, headerSize.height);
                 UICollectionViewLayoutAttributes* attr = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UIXPackedLayoutHeader withIndexPath:[NSIndexPath indexPathWithIndex:sectionNdx]];
                 attr.frame = frame;
                 currentY = currentY + frame.size.height + self.sliceSpacing;

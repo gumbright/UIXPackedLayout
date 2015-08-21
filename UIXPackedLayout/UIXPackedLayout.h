@@ -32,6 +32,16 @@ typedef enum
     UIXPackedLayoutJustificationBottom = UIXPackedLayoutJustificationRight  //V
 } UIXPackedLayoutJustification;
 
+typedef enum
+{
+    UIXPackedLayoutHeaderJustificationLeft,                                             //H
+    UIXPackedLayoutHeaderJustificationTop = UIXPackedLayoutHeaderJustificationLeft,     //V
+    UIXPackedLayoutHeaderJustificationCenter,                                           //H&V
+    UIXPackedLayoutHeaderJustificationRight,                                            //H
+    UIXPackedLayoutHeaderJustificationBottom = UIXPackedLayoutHeaderJustificationRight  //V
+} UIXPackedLayoutHeaderJustification;
+
+
 #define UIXPackedLayoutHeader @"UIXPackedLayoutHeader"
 
 @class UIXPackedLayout;
@@ -72,6 +82,7 @@ typedef enum
 //@property (nonatomic, assign) BOOL justified; //forces first and last to edges and spreads rest in between
 @property (nonatomic, assign) UIXPackedLayoutAlignment alignment;
 @property (nonatomic, assign) UIXPackedLayoutJustification justification;
+@property (nonatomic, assign) UIXPackedLayoutHeaderJustification headerJustification;
 
 @property (nonatomic, readonly) UIXPackedLayoutOrientation orientation;
 
